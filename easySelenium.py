@@ -100,12 +100,12 @@ class easySelenium:
                 time.sleep(inbetweenSleep)
     def switchTab(self,tab:int=0)  -> None:
        self.browser.switch_to.window(self.browser.window_handles[tab])
-    def scroll(self,timeout:int=120,pageloadSleep:int=5)  -> None:
+    def scroll(self,height=0,timeout:int=120,pageloadSleep:int=5)  -> None:
         pageHeight = self.browser.execute_script("return document.documentElement.scrollHeight")
         previousHeight = 0
         clock:int = 0
         while True:
-            if previousHeight == pageHeight:
+            if previousHeight == pageHeight or (height>0 and height == pageHeight):
                 break
             previousHeight = pageHeight
             self.browser.execute_script("window.scrollTo(0, " + str(pageHeight) + ");")
@@ -135,6 +135,14 @@ class easySelenium:
                     return False
                 ##                
                 time.sleep(inbetweenSleep)
+    def back(self):
+        currenturl = self.browser.current_url
+        self.browser.back()
+        self.waitForUrlChange(currenturl)
+    def changeUrl(self,url:str=''):
+        self.firstTabSet = False
+        self.open(url)
+        self.waitForUrlChange(url)
     def free(self) -> None:
         self.browser.quit()
         self.isBrowserOff = True
