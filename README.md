@@ -1,2 +1,2 @@
 # Easyselenium
-A selenium tool set for quick prototype
+A selenium wrapper intended for quick prototype
